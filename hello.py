@@ -135,23 +135,34 @@
 
 # print('方程的根是',quadratic(float(a),float(b),float(c)))
 
-i=0
-def move(n, a, b, c):
-	global i
-	if n == 1:
-		i+=1
-		print('move', a, '--->', c, '移动次数:', i)
-		return
-	move(n-1, a, c, b)
-	i+=1
-	print('move', a, '--->', c, '移动次数:', i)
-	move(n-1, b, a, c)
 
 
-n = int(input('请输入汉诺塔的层数:'))
 
-move(n,'A','B','C')
+# i=0
+# def move(n, a, b, c):
+# 	global i
+# 	if n == 1:
+# 		i+=1
+# 		print('move', a, '--->', c, '移动次数:', i)
+# 		return
+# 	move(n-1, a, c, b)
+# 	i+=1
+# 	print('move', a, '--->', c, '移动次数:', i)
+# 	move(n-1, b, a, c)
 
+
+# n = int(input('请输入汉诺塔的层数:'))
+
+# move(n,'A','B','C')
+
+
+
+L = []
+n = 1
+while n<=99:
+	L.append(n)
+	n+=2
+print(L)
 
 
 
