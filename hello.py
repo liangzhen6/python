@@ -157,12 +157,80 @@
 
 
 
-L = []
-n = 1
-while n<=99:
-	L.append(n)
-	n+=2
-print(L)
+# L = []
+# n = 1
+# while n<=99:
+# 	L.append(n)
+# 	n+=2
+# print(L)
 
 
+
+# def power(x, n=2):
+# 	s = 1
+# 	while n > 0:
+# 		n = n - 1
+# 		s = s * x
+# 	return s
+
+# print(power(5,3))
+# 
+# 
+
+
+# def add_end(L = None):
+# 	if L is None:
+# 		L = []
+# 	L.append('END')
+# 	return L
+
+# print(add_end())
+# print(add_end())
+
+
+# def calc(*numbers):
+# 	sum = 0
+# 	for x in numbers:
+# 		sum = sum + x*x
+# 	return sum
+
+# print(calc(*[1,3,5,7]))
+# 
+
+
+
+# def persion(name,age,**kw):
+# 	print('name:',name,'age:',age,'other:',kw)
+
+
+# persion('zs',18,city = 'bengjin',sex = 'nan')
+
+
+# def persion(name,age,*ed,*,city,job = 'hehe'):
+# 	print(name, age,ed,city, job)
+
+
+
+# persion('sz',22,1,2,3,city = 'beijing')
+
+
+
+from email.mime.text import MIMEText
+msg = MIMEText('hello, send by Python...', 'plain', 'utf-8')
+
+# 输入Email地址和口令:
+from_addr = 'liangz@szmn.com.cn'#input('From: ')
+password = 'Lzhen520'#input('Password: ')
+# 输入收件人地址:
+to_addr = 'liangz@szmn.com.cn'#input('To: ')
+# 输入SMTP服务器地址:
+smtp_server = 'smtp.exmail.qq.com'#input('SMTP server: ')
+
+import smtplib
+
+server = smtplib.SMTP_SSL(smtp_server, 465) # SMTP协议默认端口是25
+server.set_debuglevel(1)
+server.login(from_addr, password)
+server.sendmail(from_addr, [to_addr], msg.as_string())
+server.quit()
 
