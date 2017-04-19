@@ -214,23 +214,106 @@
 # persion('sz',22,1,2,3,city = 'beijing')
 
 
+# import smtplib, time, threading
 
-from email.mime.text import MIMEText
-msg = MIMEText('hello, send by Python...', 'plain', 'utf-8')
 
-# 输入Email地址和口令:
-from_addr = 'liangz@szmn.com.cn'#input('From: ')
-password = 'Lzhen520'#input('Password: ')
-# 输入收件人地址:
-to_addr = 'liangz@szmn.com.cn'#input('To: ')
-# 输入SMTP服务器地址:
-smtp_server = 'smtp.exmail.qq.com'#input('SMTP server: ')
+# def send():
+# 	from email.mime.text import MIMEText
+# 	msg = MIMEText('hello, send by Python...', 'plain', 'utf-8')
 
-import smtplib
+# 	# 输入Email地址和口令:
+# 	from_addr = 'liangz@szmn.com.cn'#input('From: ')
+# 	password = 'Lzhen520'#input('Password: ')
+# 	# 输入收件人地址:
+# 	to_addr = '3204792702@qq.com'#input('To: ')
+# 	# 输入SMTP服务器地址:
+# 	smtp_server = 'smtp.exmail.qq.com'#input('SMTP server: ')
 
-server = smtplib.SMTP_SSL(smtp_server, 465) # SMTP协议默认端口是25
-server.set_debuglevel(1)
-server.login(from_addr, password)
-server.sendmail(from_addr, [to_addr], msg.as_string())
-server.quit()
+# 	server = smtplib.SMTP_SSL(smtp_server, 465) # SMTP协议默认端口是25
+# 	server.set_debuglevel(1)
+# 	server.login(from_addr, password)
+# 	server.sendmail(from_addr, [to_addr], msg.as_string())
+# 	server.quit()
+
+
+# def my_thread(n):
+# 	for x in range(n):
+# 		send()
+
+# for x in range(10):
+# 	t = threading.Thread(target=my_thread, args=(3,))
+# 	t.start()
+# 	t.join()
+
+
+
+
+
+# from multiprocessing import Pool
+# import os, time, random, smtplib, threading
+
+
+# def send():
+# 	from email.mime.text import MIMEText
+# 	msg = MIMEText('hello, send by Python...', 'plain', 'utf-8')
+
+# 	# 输入Email地址和口令:
+# 	from_addr = 'liangz@szmn.com.cn'#input('From: ')
+# 	password = 'Lzhen520'#input('Password: ')
+# 	# 输入收件人地址:
+# 	to_addr = '3204792702@qq.com'#input('To: ')
+# 	# 输入SMTP服务器地址:
+# 	smtp_server = 'smtp.exmail.qq.com'#input('SMTP server: ')
+
+# 	server = smtplib.SMTP_SSL(smtp_server, 465) # SMTP协议默认端口是25
+# 	server.set_debuglevel(1)
+# 	server.login(from_addr, password)
+# 	server.sendmail(from_addr, [to_addr], msg.as_string())
+# 	server.quit()
+
+
+# def long_time_task(num):
+# 	for x in range(num):
+# 		send()
+
+# if __name__=='__main__':
+#     print('Parent process %s.' % os.getpid())
+#     p = Pool(5)
+#     for i in range(5):
+#         p.apply_async(long_time_task, args=(10,))
+#     print('Waiting for all subprocesses done...')
+#     p.close()
+#     p.join()
+#     print('All subprocesses done.')
+
+
+
+# def fib(max):
+# 	n,a,b = 0 , 0, 1
+# 	while n < max:
+# 		yield b
+# 		a ,b = b, a + b
+# 		n += 1
+# 	return 'done'
+
+# for x in fib(12):
+# 	print(x)
+
+
+def tirangles(max):
+	L = [1]
+	n = 0
+	while n < max:
+		yield L
+		L = [L[0]] + [L[i]+L[i+1] for i in range(len(L)-1)] +[L[-1]]
+		n += 1
+
+for x in tirangles(10):
+	print(x)
+
+
+
+
+
+
 
