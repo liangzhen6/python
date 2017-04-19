@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 # a = int(input('place enter a number a='))
 # b = int(input('place enter a number b='))
 # if a+b>50:
