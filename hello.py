@@ -302,19 +302,21 @@
 # 	print(x)
 
 
-def tirangles(max):
-	L = [1]
-	n = 0
-	while n < max:
-		yield L
-		L = [L[0]] + [L[i]+L[i+1] for i in range(len(L)-1)] +[L[-1]]
-		n += 1
+# def tirangles(max):
+# 	L = [1]
+# 	n = 0
+# 	while n < max:
+# 		yield L
+# 		L = [L[0]] + [L[i]+L[i+1] for i in range(len(L)-1)] +[L[-1]]
+# 		n += 1
 
-for x in tirangles(10):
-	print(x)
+# for x in tirangles(10):
+# 	print(x)
 
 
-
+# 文件的写入，并且写入后立即关闭写操作
+with open('/Users/szsh/Desktop/sbcaonima/sb.txt','w' ) as f:
+	f.write('Hello, world!')
 
 
 
