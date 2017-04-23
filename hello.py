@@ -315,8 +315,124 @@
 
 
 # 文件的写入，并且写入后立即关闭写操作
-with open('/Users/szsh/Desktop/sbcaonima/sb.txt','w' ) as f:
-	f.write('Hello, world!')
+# import os
+
+# sPath = os.path.abspath('.')
+# #创建一个文件夹
+# path1 = os.path.join(sPath,'sbcaonima')
+# print(path1)
+
+# # os.mkdir(path1)
+
+# path2 = os.path.join(path1,'sb.txt')
+
+# # 在这个文件夹里创建txt文件并且写入东西
+# with open(path2,'a' ) as f:
+# 	f.write('Hello, world!')
+
+# os.rmdir('/Users/liangzhen/Desktop/hehe')
+# he = os.path.split('Users/liangzhen/Desktop/sbcaonima/sb.txt')
+# ca = os.path.splitext('Users/liangzhen/Desktop/sbcaonima/sb.txt')
+# print(he,ca)
+
+# os.rename('/Users/liangzhen/Desktop/sbcaonima/sb.txt','/Users/liangzhen/Desktop/sbcaonima/sb.py')
+
+# os.remove('/Users/liangzhen/Desktop/sbcaonima/sb.py')
+# path1 = os.path.join('/Users','liangzhen/Desktop/sbcaonima/sb.txt')
+# path2 = os.path.join('/Users/liangzhen/Desktop/sbcaonima','sb.txt')
+
+# print('path1='+path1,'\n'+'path2='+path2)
+
+
+
+# from urllib import request
+
+# with request.urlopen('https://api.douban.com/v2/book/2129650') as f:
+# 	data = f.read()
+# 	print('status:',f.status, f.reason)
+# 	for k,v in f.getheaders:
+# 		print('%s: %s' % (k,v))
+# 	print('Data:',data.decode('utf-8'))
+
+
+# import urllib2 
+
+# response = urllib2.urlopen("http://www.baidu.com")
+# print (response.read())
+
+
+
+#爬虫抓取妹子的图片
+#教程   http://cuiqingcai.com/3179.html
+import requests 
+from bs4 import BeautifulSoup
+import os
+
+headers = {'User-Agent':"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/22.0.1207.1 Safari/537.1"}
+
+currentPath = os.path.abspath('.')
+
+def requestlxml(url):
+	# headers = {'User-Agent':"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/22.0.1207.1 Safari/537.1"}
+	content = requests.get(url,headers = headers)
+	content_Soup = BeautifulSoup(content.text,'lxml')
+	return content_Soup
+
+def mkdir(path):
+	path = path.strip()
+	mypath = os.path.join(currentPath,'meizi')
+	isExists = os.path.exists(os.path.join(mypath,path))
+	if not isExists:
+		os.makedirs(os.path.join(mypath,path))
+		# os.makedirs(os.path.join('meizi',path))
+		os.chdir(os.path.join(mypath,path))
+		return True
+	else:
+		return False
+
+all_url = 'http://www.mzitu.com/xinggan/page/2/'
+# start_html = requests.get(all_url, headers = headers)
+# Soup = BeautifulSoup(start_html.text,'lxml')
+Soup = requestlxml(all_url)
+li_list = Soup.find('ul',id = 'pins').find_all('li')
+for li in li_list:
+	all_a = li.find('span',class_ = None).find_all('a')
+	for a in all_a:
+		title = a.get_text()
+		print('是否创建成功:',mkdir(title))
+		href = a['href']
+		# html = requests.get(href,headers = headers)
+		# html_Soup = BeautifulSoup(html.text,'lxml')
+		html_Soup = requestlxml(href)
+		max_span = html_Soup.find('div',class_ = 'pagenavi').find_all('span')[-2].get_text()
+		for page in range(1,int(max_span)+1):
+			page_url = href + '/' + str(page)
+			# image_html = requests.get(page_url,headers = headers)
+			# image_Soup = BeautifulSoup(image_html.text,'lxml')
+			image_Soup = requestlxml(page_url)
+			image_url = image_Soup.find('div',class_ = 'main-image').find('img')['src']
+			name = image_url[-9:]
+			img = requests.get(image_url,headers = headers)
+			f = open(name,'ab')
+			f.write(img.content)
+			f.close()
+			print(image_url)
+
+		print(title,href,max_span)
+
+
+	# print(a)
+	# print(li)
+
+
+
+
+
+
+
+
+
+
 
 
 
