@@ -364,72 +364,87 @@
 
 #爬虫抓取妹子的图片
 #教程   http://cuiqingcai.com/3179.html
-import requests 
-from bs4 import BeautifulSoup
-import os
+# import requests 
+# from bs4 import BeautifulSoup
+# import os
 
-headers = {'User-Agent':"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/22.0.1207.1 Safari/537.1"}
+# headers = {'User-Agent':"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/22.0.1207.1 Safari/537.1"}
 
-currentPath = os.path.abspath('.')
+# currentPath = os.path.abspath('.')
 
-def requestlxml(url):
-	# headers = {'User-Agent':"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/22.0.1207.1 Safari/537.1"}
-	content = requests.get(url,headers = headers)
-	content_Soup = BeautifulSoup(content.text,'lxml')
-	return content_Soup
+# def requestlxml(url):
+# 	# headers = {'User-Agent':"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/22.0.1207.1 Safari/537.1"}
+# 	content = requests.get(url,headers = headers)
+# 	content_Soup = BeautifulSoup(content.text,'lxml')
+# 	return content_Soup
 
-def mkdir(path):
-	path = path.strip()
-	mypath = os.path.join(currentPath,'meizi')
-	isExists = os.path.exists(os.path.join(mypath,path))
-	if not isExists:
-		os.makedirs(os.path.join(mypath,path))
-		# os.makedirs(os.path.join('meizi',path))
-		os.chdir(os.path.join(mypath,path))
-		return True
-	else:
-		return False
+# def mkdir(path):
+# 	path = path.strip()
+# 	mypath = os.path.join(currentPath,'meizi')
+# 	isExists = os.path.exists(os.path.join(mypath,path))
+# 	if not isExists:
+# 		os.makedirs(os.path.join(mypath,path))
+# 		# os.makedirs(os.path.join('meizi',path))
+# 		os.chdir(os.path.join(mypath,path))
+# 		return True
+# 	else:
+# 		return False
 
-all_url = 'http://www.mzitu.com/xinggan/page/2/'
-# start_html = requests.get(all_url, headers = headers)
-# Soup = BeautifulSoup(start_html.text,'lxml')
-Soup = requestlxml(all_url)
-li_list = Soup.find('ul',id = 'pins').find_all('li')
-for li in li_list:
-	all_a = li.find('span',class_ = None).find_all('a')
-	for a in all_a:
-		title = a.get_text()
-		print('是否创建成功:',mkdir(title))
-		href = a['href']
-		# html = requests.get(href,headers = headers)
-		# html_Soup = BeautifulSoup(html.text,'lxml')
-		html_Soup = requestlxml(href)
-		max_span = html_Soup.find('div',class_ = 'pagenavi').find_all('span')[-2].get_text()
-		for page in range(1,int(max_span)+1):
-			page_url = href + '/' + str(page)
-			# image_html = requests.get(page_url,headers = headers)
-			# image_Soup = BeautifulSoup(image_html.text,'lxml')
-			image_Soup = requestlxml(page_url)
-			image_url = image_Soup.find('div',class_ = 'main-image').find('img')['src']
-			name = image_url[-9:]
-			img = requests.get(image_url,headers = headers)
-			f = open(name,'ab')
-			f.write(img.content)
-			f.close()
-			print(image_url)
+# all_url = 'http://www.mzitu.com/xinggan/page/2/'
+# # start_html = requests.get(all_url, headers = headers)
+# # Soup = BeautifulSoup(start_html.text,'lxml')
+# Soup = requestlxml(all_url)
+# li_list = Soup.find('ul',id = 'pins').find_all('li')
+# for li in li_list:
+# 	all_a = li.find('span',class_ = None).find_all('a')
+# 	for a in all_a:
+# 		title = a.get_text()
+# 		print('是否创建成功:',mkdir(title))
+# 		href = a['href']
+# 		# html = requests.get(href,headers = headers)
+# 		# html_Soup = BeautifulSoup(html.text,'lxml')
+# 		html_Soup = requestlxml(href)
+# 		max_span = html_Soup.find('div',class_ = 'pagenavi').find_all('span')[-2].get_text()
+# 		for page in range(1,int(max_span)+1):
+# 			page_url = href + '/' + str(page)
+# 			# image_html = requests.get(page_url,headers = headers)
+# 			# image_Soup = BeautifulSoup(image_html.text,'lxml')
+# 			image_Soup = requestlxml(page_url)
+# 			image_url = image_Soup.find('div',class_ = 'main-image').find('img')['src']
+# 			name = image_url[-9:]
+# 			img = requests.get(image_url,headers = headers)
+# 			f = open(name,'ab')
+# 			f.write(img.content)
+# 			f.close()
+# 			print(image_url)
 
-		print(title,href,max_span)
+# 		print(title,href,max_span)
 
 
 	# print(a)
 	# print(li)
 
 
+def  f(x):
+	return x.capitalize()
+L1 = ['adam', 'LISA', 'barT']
+
+L2 = map(f,L1)
+
+print(list(L2))
+
+from functools import reduce
+
+# def f(x,y):
+# 	return x * y
+
+def prod(L):
+	def f(x,y):
+		return x*y
+	return reduce(f,L)
 
 
-
-
-
+print(prod([1,2,3,4,10]))
 
 
 
