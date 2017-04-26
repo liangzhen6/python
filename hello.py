@@ -425,30 +425,51 @@
 	# print(li)
 
 
-def  f(x):
-	return x.capitalize()
-L1 = ['adam', 'LISA', 'barT']
+# def  f(x):
+# 	return x.capitalize()
+# L1 = ['adam', 'LISA', 'barT']
 
-L2 = map(f,L1)
+# L2 = map(f,L1)
 
-print(list(L2))
+# print(list(L2))
 
-from functools import reduce
+# from functools import reduce
 
-# def f(x,y):
-# 	return x * y
+# # def f(x,y):
+# # 	return x * y
 
-def prod(L):
-	def f(x,y):
-		return x*y
-	return reduce(f,L)
-
-
-print(prod([1,2,3,4,10]))
+# def prod(L):
+# 	def f(x,y):
+# 		return x*y
+# 	return reduce(f,L)
 
 
+# print(prod([1,2,3,4,10]))
 
 
+# def is_palindrome(n):
+# 	s = str(n)
+# 	p = s[::-1]
+# 	print(p)
+# 	return int(s)==int(p)
+
+# output = filter(is_palindrome,range(1,1000))
+# print(list(output))
+
+
+L = [('Bob', 75), ('Adam', 92), ('Bart', 66), ('Lisa', 88)]
+
+def by_name(t):
+	for x in t:
+		if isinstance(x,str):
+			return x
+def  by_score(s):
+	for x in s:
+		if isinstance(x,int):
+			return x
+
+print(sorted(L, key = by_name))
+print(sorted(L, key = by_score, reverse = True))
 
 
 
