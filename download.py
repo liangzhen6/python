@@ -46,18 +46,19 @@ class Download(object):
 				if num_reties>0:
 					time.sleep(10)#延迟10s
 					print('获取网页出错，10s后获取倒数第%s次' % (num_reties))
-					return self.get(url,timeout,num_reties-1)
+					return self.get(url,timeout,None,num_reties-1)
 				else:
 					print('开始使用代理')
 					time.sleep(10)
 					IP = ''.join(str(random.choice(self.iplist)).strip())
 					proxy = {'http':IP}
-					return self.get(url,timeout,proxy,)
+					return self.get(url,timeout,proxy,6)
 
 		else: #当代理不为空时
 			try:
-				IP = ''.join(str(random.choice(self.iplist)).strip())
-				proxy = {'http':IP}
+				if not isinstance(proxy,dict):
+					IP = ''.join(str(random.choice(self.iplist)).strip())
+					proxy = {'http':IP}
 				response = requests.get(url,headers = headers,proxies = proxy,timeout = timeout)
 				return response
 			except:
