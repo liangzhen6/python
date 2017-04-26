@@ -457,19 +457,24 @@
 # print(list(output))
 
 
-L = [('Bob', 75), ('Adam', 92), ('Bart', 66), ('Lisa', 88)]
+# L = [('Bob', 75), ('Adam', 92), ('Bart', 66), ('Lisa', 88)]
 
-def by_name(t):
-	for x in t:
-		if isinstance(x,str):
-			return x
-def  by_score(s):
-	for x in s:
-		if isinstance(x,int):
-			return x
+# def by_name(t):
+# 	for x in t:
+# 		if isinstance(x,str):
+# 			return x
+# def  by_score(s):
+# 	for x in s:
+# 		if isinstance(x,int):
+# 			return x
 
-print(sorted(L, key = by_name))
-print(sorted(L, key = by_score, reverse = True))
+# print(sorted(L, key = by_name))
+# print(sorted(L, key = by_score, reverse = True))
 
 
+
+
+f = lambda x: x*x
+
+print(f(5))
 
