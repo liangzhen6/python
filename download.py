@@ -59,6 +59,7 @@ class Download(object):
 				if not isinstance(proxy,dict):
 					IP = ''.join(str(random.choice(self.iplist)).strip())
 					proxy = {'http':IP}
+				print('正在使用代理')
 				response = requests.get(url,headers = headers,proxies = proxy,timeout = timeout)
 				return response
 			except:
