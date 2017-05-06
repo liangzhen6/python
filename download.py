@@ -29,12 +29,15 @@ class Download(object):
 		]
 		self.iplist = []
 		headers = {'User-Agent':random.choice(self.user_agent_list)}
-		html = requests.get('http://haoip.cc/tiqu.htm',headers = headers)
-		iplistn = re.findall(r'r/>(.*?)<b',html.text,re.S)  ##表示从html.text中获取所有r/><b中的内容，re.S的意思是包括匹配包括换行符，findall返回的是个list哦！				
-		for ip in iplistn:
-			i = re.sub('\n','',ip)#re.sub 是re模块替换的方法，这儿表示将\n替换为空
-			print(i.strip())
-			self.iplist.append(i.strip())
+		# try:
+		# 	html = requests.get('http://haoip.cc/tiqu.htm',headers = headers)
+		# 	iplistn = re.findall(r'r/>(.*?)<b',html.text,re.S)  ##表示从html.text中获取所有r/><b中的内容，re.S的意思是包括匹配包括换行符，findall返回的是个list哦！				
+		# 	for ip in iplistn:
+		# 		i = re.sub('\n','',ip)#re.sub 是re模块替换的方法，这儿表示将\n替换为空
+		# 		print(i.strip())
+		# 		self.iplist.append(i.strip())
+		# except :
+		# 	self.iplist = None
 
 	def get(self,url,timeout,proxy = None,num_reties = 6):
 		UA = random.choice(self.user_agent_list)
