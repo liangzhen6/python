@@ -474,7 +474,39 @@
 
 
 
-f = lambda x: x*x
+# f = lambda x: x*x
 
-print(f(5))
+# print(f(5))
+
+import requests
+from bs4 import BeautifulSoup
+import time
+import json
+
+
+
+header = 'Mozilla/5.0 (Windows NT 6.0) AppleWebKit/536.5 (KHTML, like Gecko) Chrome/19.0.1084.36 Safari/536.5'
+headers = {
+		'User-Agent':header
+		}
+
+time = int(time.time()*1000)
+
+params = {
+		'q':'河南比',
+		'pType':'local'
+		}
+# cookies = html1.cookies
+html = requests.get('http://tianqi.2345.com/t/searchCity.php',params = params,headers = headers)
+
+li = html.json()['res']
+
+if len(li):
+	dic = li[0]
+	print(dic['href'])
+else:
+	print('查无此地')
+
+
+
 
