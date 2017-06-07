@@ -86,7 +86,7 @@ class Meizitu():
 
 meizitu = Meizitu()
 
-meizitu.all_url('http://www.mzitu.com/xinggan/page/1')
+meizitu.all_url('http://www.mzitu.com/xinggan/page/18')
 
 
 

@@ -3,6 +3,7 @@ import requests
 import re
 import random
 import time
+from bs4 import BeautifulSoup
 
 class Download(object):
 	"""docstring for Download"""
@@ -29,15 +30,26 @@ class Download(object):
 		]
 		self.iplist = []
 		headers = {'User-Agent':random.choice(self.user_agent_list)}
-		# try:
-		# 	html = requests.get('http://haoip.cc/tiqu.htm',headers = headers)
-		# 	iplistn = re.findall(r'r/>(.*?)<b',html.text,re.S)  ##表示从html.text中获取所有r/><b中的内容，re.S的意思是包括匹配包括换行符，findall返回的是个list哦！				
-		# 	for ip in iplistn:
-		# 		i = re.sub('\n','',ip)#re.sub 是re模块替换的方法，这儿表示将\n替换为空
-		# 		print(i.strip())
-		# 		self.iplist.append(i.strip())
-		# except :
-		# 	self.iplist = None
+		try:
+			html = requests.get('http://www.66ip.cn/areaindex_19/index.html',headers = headers)
+			# iplistn = re.findall(r'r/>(.*?)<b',html.text,re.S)  ##表示从html.text中获取所有r/><b中的内容，re.S的意思是包括匹配包括换行符，findall返回的是个list哦！				
+			html_soup = BeautifulSoup(html.text, 'lxml')
+			div = html_soup.find('div',id = 'footer').find('div',align = 'center')
+			table = div.find('table')
+			array = table.find_all('tr')
+			array.pop(0)
+			for tr in array:
+				arr_td = tr.find_all('td')
+				dic = {'ip':arr_td[0].get_text(), 'port':arr_td[1].get_text()}
+				self.iplist.append(dic)
+			# print(self.iplist)
+			# for ip in iplistn:
+			# 	i = re.sub('\n','',ip)#re.sub 是re模块替换的方法，这儿表示将\n替换为空
+			# 	print(i.strip())
+			# 	self.iplist.append(i.strip())
+		except :
+			print('error')
+			self.iplist = None
 
 	def get(self,url,timeout,proxy = None,num_reties = 6):
 		UA = random.choice(self.user_agent_list)
@@ -50,26 +62,35 @@ class Download(object):
 					time.sleep(10)#延迟10s
 					print('获取网页出错，10s后获取倒数第%s次' % (num_reties))
 					return self.get(url,timeout,None,num_reties-1)
-				else:
+				elif len(self.iplist):
 					print('开始使用代理')
 					time.sleep(10)
-					IP = ''.join(str(random.choice(self.iplist)).strip())
-					proxy = {'http':IP}
+					dic = random.choice(self.iplist)
+					IP = ''.join(str(dic['ip']).strip())
+					PORT = ''.join(str(dic['port']).strip())
+					IPPORT = '%s:%s' %(IP,PORT)
+					proxy = {'http':IPPORT}
 					return self.get(url,timeout,proxy,6)
 
 		else: #当代理不为空时
 			try:
-				if not isinstance(proxy,dict):
-					IP = ''.join(str(random.choice(self.iplist)).strip())
-					proxy = {'http':IP}
-				print('正在使用代理')
+				if not isinstance(proxy,dict) and len(self.iplist):
+					dic = random.choice(self.iplist)
+					IP = ''.join(str(dic['ip']).strip())
+					PORT = ''.join(str(dic['port']).strip())
+					IPPORT = '%s:%s' %(IP,PORT)
+					proxy = {'http':IPPORT}
+				print('正在使用代理:%s' %(proxy))
 				response = requests.get(url,headers = headers,proxies = proxy,timeout = timeout)
 				return response
 			except:
-				if num_reties>0:
+				if num_reties>0 and len(self.iplist):
 					time.sleep(10)
-					IP = ''.join(str(random.choice(self.iplist)).strip())
-					proxy = {'http':IP}
+					dic = random.choice(self.iplist)
+					IP = ''.join(str(dic['ip']).strip())
+					PORT = ''.join(str(dic['port']).strip())
+					IPPORT = '%s:%s' %(IP,PORT)
+					proxy = {'http':IPPORT}
 					print('正在更换代理，10s后将重新启动获取倒数第%s次' % (num_reties))
 					print('当前代理是%s' % (proxy))
 					return self.get(url,timeout,proxy,num_reties-1)
@@ -80,9 +101,8 @@ class Download(object):
 
 request = Download() 
 
-
-
-
+html = request.get('http://baidu.com',3)
+print(html.text)
 
 
 
